@@ -11,34 +11,48 @@
 
 #include <string>
 #include <memory>
+#include <thread>
 #include <iostream>
 #include <boost/asio.hpp>
 
-struct DefaultSettings {
-    std::string m_ip;
-    unsigned int m_port;
-    
-    DefaultSettings() = default;
-    DefaultSettings(std::string ip, unsigned int port) {
-        m_ip = ip;
-        m_port = port;
-    }
-};
-
-
 class NetworkInterface {
+
+    struct DefaultSettings {
+        std::string m_ip;
+        unsigned int m_port;
+        
+        DefaultSettings(std::string ip, unsigned int port): m_ip(ip), m_port(port) {}
+    };
+    
 protected:
     DefaultSettings m_defaultSettings;
     
+public: //remove later
     boost::asio::io_service m_ios;
     boost::asio::ip::tcp::socket m_socket;
+    boost::system::error_code m_ec;
+    
+    boost::asio::streambuf m_response_buf;
+    std::string m_response;
+    
+    std::shared_ptr<std::thread> m_readingThread;
+    void readFunc();
+    void (*onRead)(std::string res);
     
 public:
-    NetworkInterface() = default;
-    NetworkInterface(std::string ip = "0.0.0.0", unsigned int port = 3000);
+    NetworkInterface(std::string ip, unsigned int port);
     
-    void read();
-    void write(std::string line);
+    void setReadCallback(void (*handler)(std::string res));
+    
+    // Starts a thread, calls a callback on result
+    void startReadingThread();
+    
+    // 
+    void write(std::string &line);
+    
+    virtual void connect() = 0;
+    virtual void disconnect() = 0;
+    virtual ~NetworkInterface();
 };
 
 #endif /* NetworkInterface_hpp */

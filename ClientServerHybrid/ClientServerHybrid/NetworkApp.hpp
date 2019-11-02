@@ -20,15 +20,30 @@
 typedef unsigned int uint;
 
 class NetworkApp {
+public:
+    typedef enum {ClientInstance, ServerInstance} instanceType;
+    
 private:
     AsyncTCPClient m_client;
     AsyncTCPServer m_server;
     NetworkInterface *m_workingInstance;
+    NetworkApp::instanceType m_instanceType;
 
 public:
-    NetworkApp(std::string dClIp, uint dClPort, uint dSePort);
+    NetworkApp(std::string clientIP, uint clientPort, uint serverPort);
     
+    void start();
     void write(std::string &line);
+    
+    void setReadCallback(void (*handler)(std::string res));
+    
+    void switchTo(NetworkApp::instanceType type);
+    void disconnect() {
+//        m_workingInstance->m_socket.cancel();
+//        m_workingInstance->disconnect();
+    }
+    
+//    virtual ~NetworkApp() = default;
 };
 
 #endif /* NetworkApp_hpp */

@@ -18,15 +18,17 @@
 #include <memory>
 #include <mutex>
 
-typedef void(*Callback) (unsigned int request_id, const std::string &response, const std::error_code &ec);
-
 class AsyncTCPClient : public NetworkInterface {
 private:
     boost::asio::ip::tcp::endpoint m_endpoint;
     
 public:
-    AsyncTCPClient() = default;
     AsyncTCPClient(std::string raw_ip_address, unsigned short port_num);
+    
+    void connect() override;
+    void disconnect() override {
+        
+    };
 };
 
 #endif /* AsyncTCPClient_hpp */
