@@ -9,26 +9,37 @@
 #ifndef AsyncTCPClient_hpp
 #define AsyncTCPClient_hpp
 
-#include "NetworkInterface.hpp"
+#include "Session.hpp"
 
 #include <boost/asio.hpp>
+#include <functional>
 #include <iostream>
 #include <string>
 #include <thread>
 #include <memory>
 #include <mutex>
+#include <list>
 
-class AsyncTCPClient : public NetworkInterface {
+class AsyncTCPClient : public boost::asio::noncopyable {
 private:
-    boost::asio::ip::tcp::endpoint m_endpoint;
+    boost::asio::io_service m_ios;
+    std::mutex m_active_sessions_guard;
+    std::list<std::unique_ptr<std::thread>> m_threads;
+    std::unique_ptr<boost::asio::io_service::work> m_work;
+    std::map<int, std::shared_ptr<Session>> m_active_sessions;
+    
+    unsigned int sessionCounter;
+    
+    void onRequestComplete(std::shared_ptr<Session> session);
     
 public:
-    AsyncTCPClient(std::string raw_ip_address, unsigned short port_num);
+    AsyncTCPClient(unsigned char num_of_threads);
     
-    void connect() override;
-    void disconnect() override {
-        
-    };
+    unsigned int connect(const std::string &raw_ip_address, unsigned short port_num, Callback callback, ReadHandler handler = nullptr);
+    void write(unsigned int session_id, std::string &data);
+    void disconnect(unsigned int session_id);
+    
+    void close();
 };
 
 #endif /* AsyncTCPClient_hpp */

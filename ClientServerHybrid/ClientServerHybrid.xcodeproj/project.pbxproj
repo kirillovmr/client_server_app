@@ -10,12 +10,23 @@
 		C6641CA52367DEF900A640EA /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6641CA42367DEF900A640EA /* main.cpp */; };
 		C6641CAD2367DF1C00A640EA /* AsyncTCPServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6641CAB2367DF1C00A640EA /* AsyncTCPServer.cpp */; };
 		C6641CB02367DF2900A640EA /* AsyncTCPClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6641CAE2367DF2900A640EA /* AsyncTCPClient.cpp */; };
-		C6641CB92367DFA600A640EA /* NetworkInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6641CB72367DFA600A640EA /* NetworkInterface.cpp */; };
-		C6641CBC2367F80100A640EA /* NetworkApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6641CBA2367F80100A640EA /* NetworkApp.cpp */; };
+		C6CA6E93236F796A009A4BF5 /* Session.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6CA6E91236F796A009A4BF5 /* Session.cpp */; };
+		C6CA6E9B236F8DCE009A4BF5 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6CA6E9A236F8DCE009A4BF5 /* main.cpp */; };
+		C6CA6EA3236F8F7A009A4BF5 /* Session.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6CA6EA1236F8F7A009A4BF5 /* Session.cpp */; };
+		C6CA6EA6236F8F8A009A4BF5 /* AsyncTCPServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6CA6EA4236F8F8A009A4BF5 /* AsyncTCPServer.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		C6641C9F2367DEF900A640EA /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		C6CA6E96236F8DCE009A4BF5 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -33,14 +44,25 @@
 		C6641CAC2367DF1C00A640EA /* AsyncTCPServer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AsyncTCPServer.hpp; sourceTree = "<group>"; };
 		C6641CAE2367DF2900A640EA /* AsyncTCPClient.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AsyncTCPClient.cpp; sourceTree = "<group>"; };
 		C6641CAF2367DF2900A640EA /* AsyncTCPClient.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AsyncTCPClient.hpp; sourceTree = "<group>"; };
-		C6641CB72367DFA600A640EA /* NetworkInterface.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NetworkInterface.cpp; sourceTree = "<group>"; };
-		C6641CB82367DFA600A640EA /* NetworkInterface.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = NetworkInterface.hpp; sourceTree = "<group>"; };
-		C6641CBA2367F80100A640EA /* NetworkApp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NetworkApp.cpp; sourceTree = "<group>"; };
-		C6641CBB2367F80100A640EA /* NetworkApp.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = NetworkApp.hpp; sourceTree = "<group>"; };
+		C6CA6E91236F796A009A4BF5 /* Session.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Session.cpp; sourceTree = "<group>"; };
+		C6CA6E92236F796A009A4BF5 /* Session.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Session.hpp; sourceTree = "<group>"; };
+		C6CA6E98236F8DCE009A4BF5 /* TempServer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TempServer; sourceTree = BUILT_PRODUCTS_DIR; };
+		C6CA6E9A236F8DCE009A4BF5 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		C6CA6EA1236F8F7A009A4BF5 /* Session.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Session.cpp; sourceTree = "<group>"; };
+		C6CA6EA2236F8F7A009A4BF5 /* Session.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Session.hpp; sourceTree = "<group>"; };
+		C6CA6EA4236F8F8A009A4BF5 /* AsyncTCPServer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AsyncTCPServer.cpp; sourceTree = "<group>"; };
+		C6CA6EA5236F8F8A009A4BF5 /* AsyncTCPServer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AsyncTCPServer.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		C6641C9E2367DEF900A640EA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C6CA6E95236F8DCE009A4BF5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -54,6 +76,7 @@
 			isa = PBXGroup;
 			children = (
 				C6641CA32367DEF900A640EA /* ClientServerHybrid */,
+				C6CA6E99236F8DCE009A4BF5 /* TempServer */,
 				C6641CA22367DEF900A640EA /* Products */,
 			);
 			sourceTree = "<group>";
@@ -62,6 +85,7 @@
 			isa = PBXGroup;
 			children = (
 				C6641CA12367DEF900A640EA /* ClientServerHybrid */,
+				C6CA6E98236F8DCE009A4BF5 /* TempServer */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -69,17 +93,27 @@
 		C6641CA32367DEF900A640EA /* ClientServerHybrid */ = {
 			isa = PBXGroup;
 			children = (
-				C6641CB82367DFA600A640EA /* NetworkInterface.hpp */,
-				C6641CB72367DFA600A640EA /* NetworkInterface.cpp */,
+				C6CA6E92236F796A009A4BF5 /* Session.hpp */,
+				C6CA6E91236F796A009A4BF5 /* Session.cpp */,
 				C6641CAC2367DF1C00A640EA /* AsyncTCPServer.hpp */,
 				C6641CAB2367DF1C00A640EA /* AsyncTCPServer.cpp */,
 				C6641CAF2367DF2900A640EA /* AsyncTCPClient.hpp */,
 				C6641CAE2367DF2900A640EA /* AsyncTCPClient.cpp */,
-				C6641CBB2367F80100A640EA /* NetworkApp.hpp */,
-				C6641CBA2367F80100A640EA /* NetworkApp.cpp */,
 				C6641CA42367DEF900A640EA /* main.cpp */,
 			);
 			path = ClientServerHybrid;
+			sourceTree = "<group>";
+		};
+		C6CA6E99236F8DCE009A4BF5 /* TempServer */ = {
+			isa = PBXGroup;
+			children = (
+				C6CA6EA2236F8F7A009A4BF5 /* Session.hpp */,
+				C6CA6EA1236F8F7A009A4BF5 /* Session.cpp */,
+				C6CA6EA5236F8F8A009A4BF5 /* AsyncTCPServer.hpp */,
+				C6CA6EA4236F8F8A009A4BF5 /* AsyncTCPServer.cpp */,
+				C6CA6E9A236F8DCE009A4BF5 /* main.cpp */,
+			);
+			path = TempServer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -102,6 +136,23 @@
 			productReference = C6641CA12367DEF900A640EA /* ClientServerHybrid */;
 			productType = "com.apple.product-type.tool";
 		};
+		C6CA6E97236F8DCE009A4BF5 /* TempServer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C6CA6E9C236F8DCE009A4BF5 /* Build configuration list for PBXNativeTarget "TempServer" */;
+			buildPhases = (
+				C6CA6E94236F8DCE009A4BF5 /* Sources */,
+				C6CA6E95236F8DCE009A4BF5 /* Frameworks */,
+				C6CA6E96236F8DCE009A4BF5 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TempServer;
+			productName = TempServer;
+			productReference = C6CA6E98236F8DCE009A4BF5 /* TempServer */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -112,6 +163,9 @@
 				ORGANIZATIONNAME = "Viktor Kirillov";
 				TargetAttributes = {
 					C6641CA02367DEF900A640EA = {
+						CreatedOnToolsVersion = 11.1;
+					};
+					C6CA6E97236F8DCE009A4BF5 = {
 						CreatedOnToolsVersion = 11.1;
 					};
 				};
@@ -130,6 +184,7 @@
 			projectRoot = "";
 			targets = (
 				C6641CA02367DEF900A640EA /* ClientServerHybrid */,
+				C6CA6E97236F8DCE009A4BF5 /* TempServer */,
 			);
 		};
 /* End PBXProject section */
@@ -139,11 +194,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C6CA6E93236F796A009A4BF5 /* Session.cpp in Sources */,
 				C6641CAD2367DF1C00A640EA /* AsyncTCPServer.cpp in Sources */,
-				C6641CB92367DFA600A640EA /* NetworkInterface.cpp in Sources */,
-				C6641CBC2367F80100A640EA /* NetworkApp.cpp in Sources */,
 				C6641CA52367DEF900A640EA /* main.cpp in Sources */,
 				C6641CB02367DF2900A640EA /* AsyncTCPClient.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C6CA6E94236F8DCE009A4BF5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C6CA6EA3236F8F7A009A4BF5 /* Session.cpp in Sources */,
+				C6CA6E9B236F8DCE009A4BF5 /* main.cpp in Sources */,
+				C6CA6EA6236F8F8A009A4BF5 /* AsyncTCPServer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,6 +264,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /usr/local/Cellar/boost/1.71.0/include;
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -252,6 +317,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /usr/local/Cellar/boost/1.71.0/include;
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -277,6 +343,24 @@
 			};
 			name = Release;
 		};
+		C6CA6E9D236F8DCE009A4BF5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		C6CA6E9E236F8DCE009A4BF5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -294,6 +378,15 @@
 			buildConfigurations = (
 				C6641CA92367DEF900A640EA /* Debug */,
 				C6641CAA2367DEF900A640EA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C6CA6E9C236F8DCE009A4BF5 /* Build configuration list for PBXNativeTarget "TempServer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C6CA6E9D236F8DCE009A4BF5 /* Debug */,
+				C6CA6E9E236F8DCE009A4BF5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

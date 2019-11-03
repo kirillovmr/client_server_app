@@ -1,13 +1,9 @@
 //
 //  AsyncTCPServer.cpp
-//  ClientServerHybrid
+//  TempServer
 //
-//  Created by Viktor Kirillov on 10/28/19.
+//  Created by Viktor Kirillov on 11/3/19.
 //  Copyright © 2019 Viktor Kirillov. All rights reserved.
 //
 
 #include "AsyncTCPServer.hpp"
-
-using namespace std;
-using namespace boost;
-
