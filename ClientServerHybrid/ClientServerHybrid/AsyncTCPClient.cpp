@@ -15,12 +15,12 @@ using namespace boost;
 AsyncTCPClient::AsyncTCPClient(unsigned char num_of_threads): sessionCounter(0) {
     m_work.reset(new boost::asio::io_service::work(m_ios));
 
-    for (unsigned char i = 1; i <= num_of_threads; i++) {
+    for (unsigned char i = 0; i < num_of_threads; i++) {
         std::unique_ptr<std::thread> th( new std::thread([this](){
             m_ios.run();
         }));
 
-        m_threads.push_back(std::move(th));
+        m_thread_pool.push_back(std::move(th));
     }
 }
 
@@ -110,6 +110,6 @@ void AsyncTCPClient::close() {
     m_work.reset(NULL);
 
     // Waiting for the I/O threads to exit.
-    for (auto& thread : m_threads)
+    for (auto &thread : m_thread_pool)
         thread->join();
 }

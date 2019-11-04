@@ -10,6 +10,7 @@
 #define Session_hpp
 
 #include <boost/asio.hpp>
+#include <functional>
 #include <iostream>
 #include <string>
 #include <mutex>
@@ -18,7 +19,7 @@ typedef void (*Callback) (unsigned int request_id, const std::string& response, 
 typedef std::function<void(std::string)> ReadHandler;
 
 class Session {
-private:
+protected:
     unsigned int m_id;
     
     boost::asio::ip::tcp::socket m_sock;

@@ -20,15 +20,15 @@
 #include <mutex>
 #include <list>
 
-class AsyncTCPClient : public boost::asio::noncopyable {
+class AsyncTCPClient: public boost::asio::noncopyable {
 private:
     boost::asio::io_service m_ios;
     std::mutex m_active_sessions_guard;
-    std::list<std::unique_ptr<std::thread>> m_threads;
+    std::list<std::unique_ptr<std::thread>> m_thread_pool;
     std::unique_ptr<boost::asio::io_service::work> m_work;
     std::map<int, std::shared_ptr<Session>> m_active_sessions;
     
-    unsigned int sessionCounter;
+    unsigned int sessionCounter; // MAKE ATOMIC
     
     void onRequestComplete(std::shared_ptr<Session> session);
     

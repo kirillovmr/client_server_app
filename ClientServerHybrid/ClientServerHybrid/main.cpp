@@ -65,25 +65,28 @@ int main(int argc, const char * argv[]) {
 //    test.start();
 //    return 0;
     
-    AsyncTCPClient client(4);
-
-    unsigned int id1 = client.connect("127.0.0.1", 3333, handler);
-//    unsigned int id2 = client.connect("127.0.0.1", 3000, handler);
-
-    while(true) {
-        cin >> input;
-        if(input == "x")
-            break;
-
-        cout << "INPUT: " << input << endl;
-        client.write(id1, input);
-    }
-
-    client.disconnect(id1);
-//    client.disconnect(id2);
-    client.close();
+//    AsyncTCPClient client(4);
+//
+//    unsigned int id1 = client.connect("127.0.0.1", 3000, handler);
+////    unsigned int id2 = client.connect("127.0.0.1", 3000, handler);
+//
+//    while(true) {
+//        cin >> input;
+//        if(input == "x")
+//            break;
+//
+//        cout << "INPUT: " << input << endl;
+//        client.write(id1, input);
+//    }
+//
+//    client.disconnect(id1);
+////    client.disconnect(id2);
+//    client.close();
     
-//    AsyncTCPServer server;
+    AsyncTCPServer server(3000, 4);
+    server.start();
+    cin >> input;
+    server.stop();
     
     return 0;
 }
