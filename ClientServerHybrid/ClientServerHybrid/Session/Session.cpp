@@ -9,8 +9,10 @@
 #include "Session.hpp"
 
 Session::Session(boost::asio::io_service& ios, const std::string& raw_ip_address, unsigned short port_num, const std::string& request, unsigned int id, Callback callback) :
-m_sock(ios), m_ep(boost::asio::ip::address::from_string(raw_ip_address), port_num), m_request(request), m_id(id), m_callback(callback), m_was_cancelled(false) {
-    readHandler = std::bind(&Session::defaultReadHandler, this, std::placeholders::_1);
+        m_sock(ios), m_ep(boost::asio::ip::address::from_string(raw_ip_address), port_num),
+        m_request(request), m_id(id), m_callback(callback), m_was_cancelled(false), connected(false)
+{
+    m_readHandler = std::bind(&Session::defaultReadHandler, this, std::placeholders::_1);
 }
 
 void Session::startRead() {
@@ -21,13 +23,14 @@ void Session::handleRead(const boost::system::error_code &ec, std::size_t bytes_
     if (ec) {
         m_ec = ec;
         std::cout << "'handleRead': Socket was disconnected\n";
+        m_callOnRequestComplete(m_id);
     } else {
         std::istream strm(&m_response_buf);
         std::getline(strm, m_response);
         
         std::unique_lock<std::mutex> lock(m_request_guard);
         if (m_response != m_request) { // Wrap with mutex only if
-            readHandler(m_response);
+            m_readHandler(m_response);
         }
         lock.unlock();
         
@@ -36,8 +39,8 @@ void Session::handleRead(const boost::system::error_code &ec, std::size_t bytes_
 }
 
 void Session::write(std::string &data) {
-    std::unique_lock<std::mutex> lock(m_request_guard);
-    m_request = data + "\r";
+    std::unique_lock<std::mutex> lock(m_request_guard); // MAKE ATOMIC
+        m_request = data + "\r";
     lock.unlock();
     
     boost::asio::async_write(m_sock, boost::asio::buffer(data + "\r"),

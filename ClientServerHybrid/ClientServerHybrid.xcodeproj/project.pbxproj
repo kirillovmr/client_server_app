@@ -14,6 +14,7 @@
 		C6CA6E9B236F8DCE009A4BF5 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6CA6E9A236F8DCE009A4BF5 /* main.cpp */; };
 		C6CA6EA3236F8F7A009A4BF5 /* Session.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6CA6EA1236F8F7A009A4BF5 /* Session.cpp */; };
 		C6CA6EA6236F8F8A009A4BF5 /* AsyncTCPServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6CA6EA4236F8F8A009A4BF5 /* AsyncTCPServer.cpp */; };
+		C6CA6EB72370859F009A4BF5 /* IHybrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6CA6EB52370859F009A4BF5 /* IHybrid.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -52,6 +53,8 @@
 		C6CA6EA2236F8F7A009A4BF5 /* Session.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Session.hpp; sourceTree = "<group>"; };
 		C6CA6EA4236F8F8A009A4BF5 /* AsyncTCPServer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AsyncTCPServer.cpp; sourceTree = "<group>"; };
 		C6CA6EA5236F8F8A009A4BF5 /* AsyncTCPServer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AsyncTCPServer.hpp; sourceTree = "<group>"; };
+		C6CA6EB52370859F009A4BF5 /* IHybrid.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = IHybrid.cpp; sourceTree = "<group>"; };
+		C6CA6EB62370859F009A4BF5 /* IHybrid.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = IHybrid.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,12 +96,10 @@
 		C6641CA32367DEF900A640EA /* ClientServerHybrid */ = {
 			isa = PBXGroup;
 			children = (
-				C6CA6E92236F796A009A4BF5 /* Session.hpp */,
-				C6CA6E91236F796A009A4BF5 /* Session.cpp */,
-				C6641CAC2367DF1C00A640EA /* AsyncTCPServer.hpp */,
-				C6641CAB2367DF1C00A640EA /* AsyncTCPServer.cpp */,
-				C6641CAF2367DF2900A640EA /* AsyncTCPClient.hpp */,
-				C6641CAE2367DF2900A640EA /* AsyncTCPClient.cpp */,
+				C6CA6EB423708578009A4BF5 /* Interface */,
+				C6CA6EB8237085AF009A4BF5 /* Session */,
+				C6CA6EB323708539009A4BF5 /* Client */,
+				C6CA6EB223708501009A4BF5 /* Server */,
 				C6641CA42367DEF900A640EA /* main.cpp */,
 			);
 			path = ClientServerHybrid;
@@ -114,6 +115,42 @@
 				C6CA6E9A236F8DCE009A4BF5 /* main.cpp */,
 			);
 			path = TempServer;
+			sourceTree = "<group>";
+		};
+		C6CA6EB223708501009A4BF5 /* Server */ = {
+			isa = PBXGroup;
+			children = (
+				C6641CAC2367DF1C00A640EA /* AsyncTCPServer.hpp */,
+				C6641CAB2367DF1C00A640EA /* AsyncTCPServer.cpp */,
+			);
+			path = Server;
+			sourceTree = "<group>";
+		};
+		C6CA6EB323708539009A4BF5 /* Client */ = {
+			isa = PBXGroup;
+			children = (
+				C6641CAF2367DF2900A640EA /* AsyncTCPClient.hpp */,
+				C6641CAE2367DF2900A640EA /* AsyncTCPClient.cpp */,
+			);
+			path = Client;
+			sourceTree = "<group>";
+		};
+		C6CA6EB423708578009A4BF5 /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				C6CA6EB62370859F009A4BF5 /* IHybrid.hpp */,
+				C6CA6EB52370859F009A4BF5 /* IHybrid.cpp */,
+			);
+			path = Interface;
+			sourceTree = "<group>";
+		};
+		C6CA6EB8237085AF009A4BF5 /* Session */ = {
+			isa = PBXGroup;
+			children = (
+				C6CA6E92236F796A009A4BF5 /* Session.hpp */,
+				C6CA6E91236F796A009A4BF5 /* Session.cpp */,
+			);
+			path = Session;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -194,6 +231,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C6CA6EB72370859F009A4BF5 /* IHybrid.cpp in Sources */,
 				C6CA6E93236F796A009A4BF5 /* Session.cpp in Sources */,
 				C6641CAD2367DF1C00A640EA /* AsyncTCPServer.cpp in Sources */,
 				C6641CA52367DEF900A640EA /* main.cpp in Sources */,

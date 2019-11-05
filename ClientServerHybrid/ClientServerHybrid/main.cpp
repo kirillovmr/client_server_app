@@ -49,7 +49,7 @@ public:
         cin >> in;
         
         client.disconnect(id1);
-        client.close();
+//        client.destroy();
     }
     
     void printData() {
@@ -65,28 +65,39 @@ int main(int argc, const char * argv[]) {
 //    test.start();
 //    return 0;
     
-//    AsyncTCPClient client(4);
-//
-//    unsigned int id1 = client.connect("127.0.0.1", 3000, handler);
-////    unsigned int id2 = client.connect("127.0.0.1", 3000, handler);
-//
-//    while(true) {
-//        cin >> input;
-//        if(input == "x")
-//            break;
-//
-//        cout << "INPUT: " << input << endl;
-//        client.write(id1, input);
-//    }
-//
-//    client.disconnect(id1);
-////    client.disconnect(id2);
-//    client.close();
     
-    AsyncTCPServer server(3000, 4);
-    server.start();
-    cin >> input;
-    server.stop();
+    if(0) {
+        AsyncTCPClient client(4);
+        unsigned int id1 = client.connect("127.0.0.1", 3000, handler);
+//        unsigned int id2 = client.connect("127.0.0.1", 3000, handler);
+        while(true) {
+            cin >> input;
+            if(input == "x")
+                break;
+
+            cout << "INPUT: " << input << endl;
+            client.write(id1, input);
+        }
+    }
+    else {
+        AsyncTCPServer server(4);
+        server.start(3000, handler);
+        while(true) {
+            cin >> input;
+            if(input == "x")
+                break;
+
+            cout << "INPUT: " << input << endl;
+            server.write(0, input);
+        }
+    }
     
     return 0;
 }
+
+
+// 1. Debug mode pass to session.
+// 2. Refactor session struct
+// 3. Check memory leakage
+// 4. Test
+// 5. Test

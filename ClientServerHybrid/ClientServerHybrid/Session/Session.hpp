@@ -13,20 +13,21 @@
 #include <functional>
 #include <iostream>
 #include <string>
+#include <atomic>
 #include <mutex>
 
 typedef void (*Callback) (unsigned int request_id, const std::string& response, const boost::system::error_code& ec);
 typedef std::function<void(std::string)> ReadHandler;
 
-class Session {
-protected:
+struct Session {
     unsigned int m_id;
     
     boost::asio::ip::tcp::socket m_sock;
     boost::asio::ip::tcp::endpoint m_ep;
     std::string m_request;
 
-public:
+    std::atomic<bool> connected; // SERVER
+    
     boost::asio::streambuf m_response_buf;
     std::string m_response;
 
@@ -38,10 +39,11 @@ public:
     std::mutex m_cancel_guard;
     std::mutex m_request_guard;
     
-    std::function<void(std::string)> readHandler;
+    std::function<void(std::string)> m_readHandler;
+    std::function<void(unsigned int)> m_callOnRequestComplete;
     
     void defaultReadHandler(std::string) {
-        std::cout << "Readed: " << m_response << std::endl;
+        std::cout << "Message from " << m_sock.remote_endpoint() << ": " << m_response << std::endl;
     }
     
 public:

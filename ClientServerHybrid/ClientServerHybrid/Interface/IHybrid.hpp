@@ -1,45 +1,53 @@
 //
-//  AsyncTCPClient.hpp
+//  IHybrid.hpp
 //  ClientServerHybrid
 //
-//  Created by Viktor Kirillov on 10/28/19.
+//  Created by Viktor Kirillov on 11/4/19.
 //  Copyright © 2019 Viktor Kirillov. All rights reserved.
 //
 
-#ifndef AsyncTCPClient_hpp
-#define AsyncTCPClient_hpp
+#ifndef IHybrid_hpp
+#define IHybrid_hpp
 
 #include "Session.hpp"
 
 #include <boost/asio.hpp>
-#include <functional>
 #include <iostream>
 #include <string>
-#include <thread>
 #include <memory>
+#include <thread>
+#include <atomic>
 #include <mutex>
 #include <list>
 
-class AsyncTCPClient: public boost::asio::noncopyable {
-private:
+class IHybrid {
+protected:
+    const bool m_debug = true;
     boost::asio::io_service m_ios;
     std::mutex m_active_sessions_guard;
     std::list<std::unique_ptr<std::thread>> m_thread_pool;
     std::unique_ptr<boost::asio::io_service::work> m_work;
     std::map<int, std::shared_ptr<Session>> m_active_sessions;
     
-    unsigned int sessionCounter; // MAKE ATOMIC
+    std::atomic<unsigned int> sessionCounter;
     
+    // Disconnects socket, removes it from session list
     void onRequestComplete(std::shared_ptr<Session> session);
     
 public:
-    AsyncTCPClient(unsigned char num_of_threads);
+    IHybrid(unsigned char num_of_threads);
     
-    unsigned int connect(const std::string &raw_ip_address, unsigned short port_num, Callback callback, ReadHandler handler = nullptr);
+    // Writes to session id
     void write(unsigned int session_id, std::string &data);
+    
+    // Disconnects session(s) by id
+    void disconnectAll();
     void disconnect(unsigned int session_id);
     
-    void close();
+    // Binds to session object, calls onRequestComplete() when needed
+    void callOnRequestComplete(unsigned int session_id);
+    
+    virtual ~IHybrid();
 };
 
-#endif /* AsyncTCPClient_hpp */
+#endif /* IHybrid_hpp */
