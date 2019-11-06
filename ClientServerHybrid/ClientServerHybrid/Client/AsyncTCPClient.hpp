@@ -26,6 +26,9 @@ public:
     // Connects to specified endpoint
     unsigned int connect(const std::string &raw_ip, unsigned short port_num, Callback callback, ReadHandler handler = nullptr);
     
+    // Notifies server to transmit all the data
+    void transmit(unsigned int session_id, std::string data);
+    
     // Disconnects clients
     ~AsyncTCPClient();
 };

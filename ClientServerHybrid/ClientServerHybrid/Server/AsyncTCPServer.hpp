@@ -43,6 +43,9 @@ public:
     // Run initAccept(), can be run only once
     void start(unsigned short port_num, Callback callback, ReadHandler handler = nullptr);
     
+    // Transmits the data to all the sockets connected to the server
+    void transmit(std::string &data, unsigned int excludeId = -1);
+    
     // Disconnects clients, stop asyncs
     ~AsyncTCPServer();
 };

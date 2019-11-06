@@ -18,15 +18,18 @@
 
 typedef void (*Callback) (unsigned int request_id, const std::string& response, const boost::system::error_code& ec);
 typedef std::function<void(std::string)> ReadHandler;
+typedef std::function<void(std::string, unsigned int)> ServerTransmitter;
+enum InstanceType { ServerInstance, ClientInstance };
 
 struct Session {
     unsigned int m_id;
+    InstanceType m_instanceType;
     
     boost::asio::ip::tcp::socket m_sock;
     boost::asio::ip::tcp::endpoint m_ep;
     std::string m_request;
 
-    std::atomic<bool> connected; // SERVER
+    std::atomic<bool> connected;
     
     boost::asio::streambuf m_response_buf;
     std::string m_response;
@@ -41,6 +44,7 @@ struct Session {
     
     std::function<void(std::string)> m_readHandler;
     std::function<void(unsigned int)> m_callOnRequestComplete;
+    std::function<void(std::string&, unsigned int)> m_serverTransmitter;
     
     void defaultReadHandler(std::string) {
         std::cout << "Message from " << m_sock.remote_endpoint() << ": " << m_response << std::endl;

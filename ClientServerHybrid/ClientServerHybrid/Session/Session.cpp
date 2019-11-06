@@ -28,11 +28,19 @@ void Session::handleRead(const boost::system::error_code &ec, std::size_t bytes_
         std::istream strm(&m_response_buf);
         std::getline(strm, m_response);
         
-        std::unique_lock<std::mutex> lock(m_request_guard);
-        if (m_response != m_request) { // Wrap with mutex only if
+        // Remove carriage return
+        m_response.pop_back();
+        
+        if (m_response[0] == '\t' && m_instanceType == InstanceType::ServerInstance) {
+            // Erasing '\t'
+            m_response.erase(0, 1);
+            m_serverTransmitter(m_response, m_id);
+        }
+            
+        
+        if (m_response != m_request) {
             m_readHandler(m_response);
         }
-        lock.unlock();
         
         startRead();
     }

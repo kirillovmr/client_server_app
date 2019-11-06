@@ -11,11 +11,14 @@
 using namespace std;
 using namespace boost;
 
-AsyncTCPClient::AsyncTCPClient(unsigned char num_of_threads): IHybrid(num_of_threads) {}
+AsyncTCPClient::AsyncTCPClient(unsigned char num_of_threads): IHybrid(num_of_threads) {
+    m_instanceType = InstanceType::ClientInstance;
+}
 
 
 unsigned int AsyncTCPClient::connect(const string &raw_ip, unsigned short port_num, Callback callback, ReadHandler handler) {
     std::shared_ptr<Session> session = std::shared_ptr<Session>( new Session(m_ios, raw_ip, port_num, "request", sessionCounter.load(), callback));
+    session->m_instanceType = m_instanceType;
     
     // Bind handlers
     session->m_callOnRequestComplete = bind(&IHybrid::callOnRequestComplete, this, placeholders::_1);
@@ -48,6 +51,12 @@ unsigned int AsyncTCPClient::connect(const string &raw_ip, unsigned short port_n
     });
     
     return session->m_id;
+}
+
+
+void AsyncTCPClient::transmit(unsigned int session_id, std::string data) {
+    data.insert(0, 1, '\t');
+    write(session_id, data);
 }
 
 

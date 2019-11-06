@@ -81,7 +81,7 @@ void IHybrid::disconnect(unsigned int session_id) {
     lock.unlock();
     
     if (it != m_active_sessions.end()) {
-        if (!it->second->connected)
+        if (!it->second->connected.load())
             return;
         
         std::unique_lock<std::mutex> cancel_lock(it->second->m_cancel_guard);

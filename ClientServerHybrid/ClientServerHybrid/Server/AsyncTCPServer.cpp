@@ -16,9 +16,11 @@ using endpoint = boost::asio::ip::tcp::endpoint;
 
 void AsyncTCPServer::initAccept() {
     std::shared_ptr<Session> session = std::shared_ptr<Session>( new Session(m_ios, "127.0.0.1", m_port_num, "request", sessionCounter, m_callback));
+    session->m_instanceType = m_instanceType;
     
     // Bind handlers
     session->m_callOnRequestComplete = bind(&IHybrid::callOnRequestComplete, this, placeholders::_1);
+    session->m_serverTransmitter = bind(&AsyncTCPServer::transmit, this, placeholders::_1, placeholders::_2);
     if(m_readHandler) { session->m_readHandler = m_readHandler; }
     
     // Store session
@@ -37,7 +39,7 @@ void AsyncTCPServer::initAccept() {
         cout << "Listen started.\n";
     
     m_acceptor->async_accept(session->m_sock, [this, session]( const boost::system::error_code &error) {
-        if (m_debug)
+        if (m_debug && !error)
             cout << "New connection: " << session->m_sock.remote_endpoint() << endl;
 
         onAccept(error, session);
@@ -64,13 +66,14 @@ void AsyncTCPServer::onAccept(const boost::system::error_code &ec, std::shared_p
     else {
         // Stop accepting incoming connections,
         // free allocated resources.
-        m_acceptor->close();
+//        m_acceptor->close();
     }
 }
 
 
-AsyncTCPServer::AsyncTCPServer(unsigned char num_of_threads): IHybrid(num_of_threads), m_isStarted(false), m_isStopped(false) {}
-
+AsyncTCPServer::AsyncTCPServer(unsigned char num_of_threads): IHybrid(num_of_threads), m_isStarted(false), m_isStopped(false) {
+    m_instanceType = InstanceType::ServerInstance;
+}
 
 void AsyncTCPServer::start(unsigned short port_num, Callback callback, ReadHandler handler) {
     if(!m_isStarted) {
@@ -79,6 +82,12 @@ void AsyncTCPServer::start(unsigned short port_num, Callback callback, ReadHandl
         m_readHandler = handler;
         initAccept();
     }
+}
+
+void AsyncTCPServer::transmit(std::string &data, unsigned int excludeId) {
+    for (auto &s : m_active_sessions)
+        if(s.second->connected.load() && s.second->m_id != excludeId)
+            write(s.second->m_id, data);
 }
 
 
@@ -90,5 +99,6 @@ AsyncTCPServer::~AsyncTCPServer() {
     m_isStopped.store(true);
 
     // Cancel all acceptor asynchronous operations
-    m_acceptor->cancel();
+    if(m_acceptor)
+        m_acceptor->cancel();
 }

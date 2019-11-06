@@ -21,6 +21,9 @@
 #include <list>
 
 class IHybrid {
+public:
+    InstanceType m_instanceType;
+    
 protected:
     const bool m_debug = true;
     boost::asio::io_service m_ios;
