@@ -18,6 +18,7 @@
 		C6CA6EC82371FECD009A4BF5 /* Session.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6CA6E91236F796A009A4BF5 /* Session.cpp */; };
 		C6CA6EC92371FECD009A4BF5 /* AsyncTCPClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6641CAE2367DF2900A640EA /* AsyncTCPClient.cpp */; };
 		C6CA6ECA2371FECD009A4BF5 /* AsyncTCPServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6641CAB2367DF1C00A640EA /* AsyncTCPServer.cpp */; };
+		C6CA6EE423738208009A4BF5 /* NetworkChessApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6CA6EE223738208009A4BF5 /* NetworkChessApp.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -56,6 +57,8 @@
 		C6CA6EBF2371FC0D009A4BF5 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		C6CA6EC42371FC4B009A4BF5 /* catch.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = catch.hpp; sourceTree = "<group>"; };
 		C6CA6EC52371FC7A009A4BF5 /* ServerTest.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ServerTest.cpp; sourceTree = "<group>"; };
+		C6CA6EE223738208009A4BF5 /* NetworkChessApp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NetworkChessApp.cpp; sourceTree = "<group>"; };
+		C6CA6EE323738208009A4BF5 /* NetworkChessApp.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = NetworkChessApp.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +104,7 @@
 				C6CA6EB8237085AF009A4BF5 /* Session */,
 				C6CA6EB323708539009A4BF5 /* Client */,
 				C6CA6EB223708501009A4BF5 /* Server */,
+				C6CA6EE1237380E8009A4BF5 /* NetworkChess */,
 				C6641CA42367DEF900A640EA /* main.cpp */,
 			);
 			path = ClientServerHybrid;
@@ -150,6 +154,15 @@
 				C6CA6EC52371FC7A009A4BF5 /* ServerTest.cpp */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		C6CA6EE1237380E8009A4BF5 /* NetworkChess */ = {
+			isa = PBXGroup;
+			children = (
+				C6CA6EE323738208009A4BF5 /* NetworkChessApp.hpp */,
+				C6CA6EE223738208009A4BF5 /* NetworkChessApp.cpp */,
+			);
+			path = NetworkChess;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -233,6 +246,7 @@
 				C6CA6EB72370859F009A4BF5 /* IHybrid.cpp in Sources */,
 				C6CA6E93236F796A009A4BF5 /* Session.cpp in Sources */,
 				C6641CAD2367DF1C00A640EA /* AsyncTCPServer.cpp in Sources */,
+				C6CA6EE423738208009A4BF5 /* NetworkChessApp.cpp in Sources */,
 				C6641CA52367DEF900A640EA /* main.cpp in Sources */,
 				C6641CB02367DF2900A640EA /* AsyncTCPClient.cpp in Sources */,
 			);

@@ -8,9 +8,11 @@
 
 #include "AsyncTCPClient.hpp"
 #include "AsyncTCPServer.hpp"
-#include <boost/asio.hpp>
+#include "NetworkChessApp.hpp"
 
+#include <boost/asio.hpp>
 #include <iostream>
+#include <thread>
 #include <string>
 
 using namespace std;
@@ -60,37 +62,49 @@ public:
 int main(int argc, const char * argv[]) {
     cout << "Main started\n";
     string input;
+    string ip = "127.0.0.1";
+    
+    NetworkChessApp app(ip, 3000);
+    
+    vector<string> boardVals {"A120", "A221", "B416"};
+    app.serializeBoard(boardVals);
+    this_thread::sleep_for(1s);
+    app.runServer();
+    this_thread::sleep_for(1s);
+    app.join(0);
+    
+    cin >> input;
     
 //    Test test;
 //    test.start();
 //    return 0;
     
     
-    if(0) {
-        AsyncTCPClient client(4);
-        unsigned int id1 = client.connect("127.0.0.1", 3000, handler);
-//        unsigned int id2 = client.connect("127.0.0.1", 3000, handler);
-        while(true) {
-            cin >> input;
-            if(input == "x")
-                break;
-
-            cout << "INPUT: " << input << endl;
-            client.write(id1, input);
-        }
-    }
-    else {
-        AsyncTCPServer server(4);
-        server.start(3000, handler);
-        while(true) {
-            cin >> input;
-            if(input == "x")
-                break;
-
-            cout << "INPUT: " << input << endl;
-            server.write(0, input);
-        }
-    }
+//    if(0) {
+//        AsyncTCPClient client(4);
+//        unsigned int id1 = client.connect("127.0.0.1", 3000, handler);
+////        unsigned int id2 = client.connect("127.0.0.1", 3000, handler);
+//        while(true) {
+//            cin >> input;
+//            if(input == "x")
+//                break;
+//
+//            cout << "INPUT: " << input << endl;
+//            client.write(id1, input);
+//        }
+//    }
+//    else {
+//        AsyncTCPServer server(4);
+//        server.start(3000, handler);
+//        while(true) {
+//            cin >> input;
+//            if(input == "x")
+//                break;
+//
+//            cout << "INPUT: " << input << endl;
+//            server.write(0, input);
+//        }
+//    }
     
     return 0;
 }

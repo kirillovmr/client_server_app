@@ -48,7 +48,7 @@ void Session::handleRead(const boost::system::error_code &ec, std::size_t bytes_
 
 void Session::write(std::string &data) {
     std::unique_lock<std::mutex> lock(m_request_guard); // MAKE ATOMIC
-        m_request = data + "\r";
+        m_request = data;
     lock.unlock();
     
     boost::asio::async_write(m_sock, boost::asio::buffer(data + "\r"),
