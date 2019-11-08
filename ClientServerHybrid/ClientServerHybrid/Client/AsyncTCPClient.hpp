@@ -13,6 +13,7 @@
 #include "Session.hpp"
 
 #include <boost/asio.hpp>
+#include <boost/asio/steady_timer.hpp>
 #include <iostream>
 #include <string>
 #include <memory>
@@ -24,7 +25,7 @@ public:
     AsyncTCPClient(unsigned char num_of_threads);
     
     // Connects to specified endpoint
-    unsigned int connect(const std::string &raw_ip, unsigned short port_num, Callback callback, ReadHandler handler = nullptr);
+    unsigned int connect(const std::string &raw_ip, unsigned short port_num, Callback callback, ReadHandler handler = nullptr, OnConnect onConnect = nullptr);
     
     // Notifies server to transmit all the data
     void transmit(unsigned int session_id, std::string data);

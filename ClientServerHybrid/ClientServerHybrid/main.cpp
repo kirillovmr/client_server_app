@@ -62,49 +62,49 @@ public:
 int main(int argc, const char * argv[]) {
     cout << "Main started\n";
     string input;
+    int num;
     string ip = "127.0.0.1";
-    
-    NetworkChessApp app(ip, 3000);
-    
-    vector<string> boardVals {"A120", "A221", "B416"};
-    app.serializeBoard(boardVals);
-    this_thread::sleep_for(1s);
-    app.runServer();
-    this_thread::sleep_for(1s);
-    app.join(0);
-    
-    cin >> input;
-    
-//    Test test;
-//    test.start();
-//    return 0;
+    string gip = "10.0.0.204";
     
     
-//    if(0) {
-//        AsyncTCPClient client(4);
-//        unsigned int id1 = client.connect("127.0.0.1", 3000, handler);
-////        unsigned int id2 = client.connect("127.0.0.1", 3000, handler);
-//        while(true) {
-//            cin >> input;
-//            if(input == "x")
-//                break;
-//
-//            cout << "INPUT: " << input << endl;
-//            client.write(id1, input);
-//        }
-//    }
-//    else {
-//        AsyncTCPServer server(4);
-//        server.start(3000, handler);
-//        while(true) {
-//            cin >> input;
-//            if(input == "x")
-//                break;
-//
-//            cout << "INPUT: " << input << endl;
-//            server.write(0, input);
-//        }
-//    }
+    boost::asio::io_service io_service;
+    boost::asio::ip::tcp::resolver resolver(io_service);
+
+    std::string h = boost::asio::ip::host_name();
+    std::cout << "Host name is " << h << '\n';
+    std::cout << "IP addresses are: \n";
+    std::for_each(resolver.resolve({h, ""}), {}, [](const auto &re) {
+        std::cout << re.endpoint().address().to_string() << '\n';
+    });
+    
+    
+//    cin >> input;
+    NetworkChessApp app;
+    
+    while(true) {
+        cin >> input;
+        
+        if(input == "x") {
+            break;
+        }
+        else if(input == "serv") {
+            app.runServer();
+        }
+        else if(input == "stop") {
+            app.stopServer();
+        }
+        else if(input == "conn") {
+            cin >> input;
+            cin >> num;
+            app.connect(input, num);
+        }
+        else if(input == "disc"){
+            app.disconnect();
+        }
+    }
+    
+    //    vector<string> boardVals {"A120", "A221", "B416"};
+    //    app.serializeBoard(boardVals);
     
     return 0;
 }

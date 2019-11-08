@@ -17,6 +17,7 @@
 #include <functional>
 #include <iostream>
 #include <sstream>
+#include <atomic>
 #include <memory>
 #include <vector>
 #include <string>
@@ -30,6 +31,7 @@ private:
     std::string msgStopServer = "stopServer";
     std::string msgRoomNumber = "room ";
     std::string msgJoin = "join ";
+    std::string msgIP = "ip ";
     
 private:
     std::unique_ptr<AsyncTCPServer> m_server;
@@ -38,32 +40,49 @@ private:
     const unsigned int m_serverPoolSize = 4;
     const unsigned int m_clientPoolSize = 4;
     
-    std::string m_matchingServerIP;
-    unsigned short int m_matchingServerPort;
+    // Matching server
     unsigned short int m_currentServerPort = 3030;
+    
+    
+    // Joining server
+    std::string m_gameServerIP;
+    unsigned short int m_gameServerPort;
+    std::atomic<bool> connectingToGameServer;
     
     // Holds current network state
     NetworkState m_networkState;
     
-    // Holds id of session connected to matching server
-    unsigned int m_matchingServerId = -1;
+    // Holds id of sessions connected to matching server / game server
+    short int m_matchingServerId = -1;
+    short int m_gameServerId = -1;
     
     // Room number assigned by matching server
-    unsigned int m_roomNumber = -1;
+    short int m_roomNumber = -1;
+    
+    // Room number that we did last connection to
+    short int m_lastGameRoomNum = -1;
     
     // Holds current board state
     std::string m_serializedBoard;
     
-    void readHandler(std::string data);
+    // Async invokers
+    void gameServerOnConnect();
+    
+    // Handlers
+    void connGameServerHandler(unsigned int request_id, const std::string &response, const boost::system::error_code &ec);
+    void readGameServerHandler(std::string data);
     
 public:
     
-    NetworkChessApp(std::string matchingServerIP, unsigned short int matchingServerPort);
+    NetworkChessApp();
     
     void runServer();
     void stopServer();
     
-    void join(int roomNum);
+    // Join room
+    void connect(std::string ip, unsigned short int port);
+    // Leave room
+    void disconnect();
     
     void serializeBoard(const std::vector<std::string> &boardValues);
 };

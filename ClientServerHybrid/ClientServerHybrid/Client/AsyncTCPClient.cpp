@@ -16,8 +16,8 @@ AsyncTCPClient::AsyncTCPClient(unsigned char num_of_threads): IHybrid(num_of_thr
 }
 
 
-unsigned int AsyncTCPClient::connect(const string &raw_ip, unsigned short port_num, Callback callback, ReadHandler handler) {
-    std::shared_ptr<Session> session = std::shared_ptr<Session>( new Session(m_ios, raw_ip, port_num, "request", sessionCounter.load(), callback));
+unsigned int AsyncTCPClient::connect(const string &raw_ip, unsigned short port_num, Callback callback, ReadHandler handler, OnConnect onConnect) {
+    std::shared_ptr<Session> session = std::shared_ptr<Session>( new Session(m_ios, raw_ip, port_num, "request", sessionCounter.load(), callback, onConnect));
     session->m_instanceType = m_instanceType;
     
     // Bind handlers
@@ -31,26 +31,37 @@ unsigned int AsyncTCPClient::connect(const string &raw_ip, unsigned short port_n
         m_active_sessions[sessionCounter++] = session;
     lock.unlock();
     
-    session->m_sock.async_connect(session->m_ep, [this, session](const system::error_code& ec) {
-        if (ec) {
-            session->m_ec = ec;
-            onRequestComplete(session);
-            return;
-        }
-
-        std::unique_lock<std::mutex> cancel_lock(session->m_cancel_guard);
-        if (session->m_was_cancelled) {
-            onRequestComplete(session);
-            return;
-        }
-        
-        cout << "Session " << session->m_id << ": Connected\n";
-        session->connected.store(true);
-        
-        session->startRead();
-    });
+    session->connect();
     
     return session->m_id;
+    
+//    session->m_sock.async_connect(session->m_ep, [this, session](const system::error_code& ec) {
+//        if (ec == boost::asio::error::connection_refused) {
+//            cout << "Reconnecting..." << endl;
+
+//            session->m_ec = ec;
+//            onRequestComplete(session);
+//            return;
+//        }
+//        else if (ec) {
+//            session->m_ec = ec;
+//            onRequestComplete(session);
+//            return;
+//        }
+//
+//        std::unique_lock<std::mutex> cancel_lock(session->m_cancel_guard);
+//        if (session->m_was_cancelled) {
+//            onRequestComplete(session);
+//            return;
+//        }
+//
+//        cout << "Session " << session->m_id << ": Connected\n";
+//        session->connected.store(true);
+//
+//        session->startRead();
+//    });
+//
+//    return session->m_id;
 }
 
 

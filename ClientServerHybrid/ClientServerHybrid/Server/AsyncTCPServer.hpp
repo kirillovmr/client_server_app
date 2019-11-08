@@ -13,7 +13,9 @@
 #include "Session.hpp"
 
 #include <boost/asio.hpp>
+#include <algorithm>
 #include <iostream>
+#include <vector>
 #include <atomic>
 #include <memory>
 #include <string>
@@ -24,6 +26,9 @@ private:
     bool m_isStarted;
     std::atomic<bool> m_isStopped;
     std::unique_ptr<boost::asio::ip::tcp::acceptor> m_acceptor;
+    std::unique_ptr<boost::asio::ip::tcp::resolver> m_resolver;
+    
+    std::vector<std::string> m_localAddresses;
     
     // Values to init each session
     unsigned short m_port_num;

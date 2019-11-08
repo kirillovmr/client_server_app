@@ -73,6 +73,13 @@ void AsyncTCPServer::onAccept(const boost::system::error_code &ec, std::shared_p
 
 AsyncTCPServer::AsyncTCPServer(unsigned char num_of_threads): IHybrid(num_of_threads), m_isStarted(false), m_isStopped(false) {
     m_instanceType = InstanceType::ServerInstance;
+    m_resolver.reset(new boost::asio::ip::tcp::resolver(m_ios));
+    
+    // Storing local ip addresses
+    std::string h = boost::asio::ip::host_name();
+    std::for_each(m_resolver->resolve({h, ""}), {}, [this](const auto &re) {
+        m_localAddresses.push_back(re.endpoint().address().to_string());
+    });
 }
 
 void AsyncTCPServer::start(unsigned short port_num, Callback callback, ReadHandler handler) {

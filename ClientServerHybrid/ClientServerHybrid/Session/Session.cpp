@@ -8,11 +8,58 @@
 
 #include "Session.hpp"
 
-Session::Session(boost::asio::io_service& ios, const std::string& raw_ip_address, unsigned short port_num, const std::string& request, unsigned int id, Callback callback) :
-        m_sock(ios), m_ep(boost::asio::ip::address::from_string(raw_ip_address), port_num),
+using namespace boost;
+using namespace std;
+
+Session::Session(boost::asio::io_service &ios, const std::string &raw_ip_address, unsigned short port_num,
+                 const std::string &request, unsigned int id, Callback callback, OnConnect onConnect) :
+        m_sock(ios), m_ep(boost::asio::ip::address::from_string(raw_ip_address), port_num), m_timer(ios),
+        m_onConnect(onConnect),
         m_request(request), m_id(id), m_callback(callback), m_was_cancelled(false), connected(false)
 {
     m_readHandler = std::bind(&Session::defaultReadHandler, this, std::placeholders::_1);
+}
+
+void Session::connect() {
+    m_sock.async_connect(m_ep, std::bind(&Session::handleConnect, this, std::placeholders::_1));
+}
+
+void Session::handleConnect(const boost::system::error_code &ec) {
+    std::unique_lock<std::mutex> cancel_lock(m_cancel_guard);
+    if (m_was_cancelled) {
+        m_callOnRequestComplete(m_id);
+        return;
+    }
+    
+    if (ec == boost::asio::error::connection_refused) {
+        
+        cout << "Reconnecting..." << endl;
+        m_ec = ec;
+//        this_thread::sleep_for(1s);
+//
+//        connect();
+        
+        // Reconnecting
+        m_timer.expires_from_now(chrono::seconds(2));
+        m_timer.async_wait([this](boost::system::error_code ec){
+            m_timer.cancel();
+            decltype(m_sock)(std::move(m_sock));
+            connect();
+        });
+        return;
+    }
+    else if (ec) {
+        m_ec = ec;
+        m_callOnRequestComplete(m_id);
+        return;
+    }
+    
+    cout << "Session " << m_id << ": Connected\n";
+    connected.store(true);
+    if (m_onConnect)
+        m_onConnect();
+    
+    startRead();
 }
 
 void Session::startRead() {
