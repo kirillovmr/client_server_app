@@ -37,7 +37,7 @@ void IHybrid::onRequestComplete(std::shared_ptr<Session> session) {
     if (m_debug)
         cout << "Session " << session->getId() << " was removed from list.\n";
 
-    if (!session->m_ec && session->m_was_cancelled)
+    if (!session->m_ec && session->m_was_cancelled.load())
         ec = asio::error::operation_aborted;
     else
         ec = session->m_ec;
@@ -81,11 +81,12 @@ void IHybrid::disconnect(unsigned int session_id) {
     lock.unlock();
     
     if (it != m_active_sessions.end()) {
-        if (!it->second->connected.load())
-            return;
+        if (m_instanceType == InstanceType::ServerInstance)
+            if (!it->second->connected.load())
+                return;
         
         std::unique_lock<std::mutex> cancel_lock(it->second->m_cancel_guard);
-        it->second->m_was_cancelled = true;
+        it->second->m_was_cancelled.store(true);
         it->second->getSocket().cancel();
         
         if (m_debug)

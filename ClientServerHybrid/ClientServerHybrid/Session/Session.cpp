@@ -26,7 +26,7 @@ void Session::connect() {
 
 void Session::handleConnect(const boost::system::error_code &ec) {
     std::unique_lock<std::mutex> cancel_lock(m_cancel_guard);
-    if (m_was_cancelled) {
+    if (m_was_cancelled.load()) {
         m_callOnRequestComplete(m_id);
         return;
     }
@@ -69,7 +69,7 @@ void Session::startRead() {
 void Session::handleRead(const boost::system::error_code &ec, std::size_t bytes_transferred) {
     if (ec) {
         m_ec = ec;
-        std::cout << "'handleRead': Socket was disconnected\n";
+//        std::cout << "'handleRead': Socket was disconnected\n";
         m_callOnRequestComplete(m_id);
     } else {
         std::istream strm(&m_response_buf);
@@ -107,7 +107,7 @@ void Session::write(std::string &data) {
         }
 
         std::unique_lock<std::mutex> cancel_lock(m_cancel_guard);
-        if (m_was_cancelled) {
+        if (m_was_cancelled.load()) {
             std::cout << "Writing calcelled\n";
             return;
         }

@@ -34,6 +34,7 @@ private:
     unsigned short m_port_num;
     Callback m_callback;
     ReadHandler m_readHandler;
+    OnConnect m_onConnect;
     
     // Acceptor accepts connection, creates session
     void initAccept();
@@ -45,8 +46,11 @@ public:
     // Initializes parent
     AsyncTCPServer(unsigned char num_of_threads);
     
+    // Returns vector of local IP addresses
+    std::vector<std::string> getAddresses();
+    
     // Run initAccept(), can be run only once
-    void start(unsigned short port_num, Callback callback, ReadHandler handler = nullptr);
+    void start(unsigned short port_num, Callback callback, ReadHandler handler = nullptr, OnConnect onConnect = nullptr);
     
     // Transmits the data to all the sockets connected to the server
     void transmit(std::string &data, unsigned int excludeId = -1);

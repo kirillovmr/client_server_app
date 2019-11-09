@@ -25,7 +25,8 @@ public:
     InstanceType m_instanceType;
     
 protected:
-    const bool m_debug = true;
+    const bool m_debug = false;
+    
     boost::asio::io_service m_ios;
     std::mutex m_active_sessions_guard;
     std::list<std::unique_ptr<std::thread>> m_thread_pool;

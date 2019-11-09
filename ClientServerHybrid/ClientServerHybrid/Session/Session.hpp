@@ -41,7 +41,7 @@ struct Session {
 
     Callback m_callback;
 
-    bool m_was_cancelled;
+    std::atomic<bool> m_was_cancelled;
     std::mutex m_cancel_guard;
     std::mutex m_request_guard;
     

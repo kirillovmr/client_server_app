@@ -51,6 +51,8 @@ void AsyncTCPServer::onAccept(const boost::system::error_code &ec, std::shared_p
     if (!ec) {
         session->connected.store(true);
         session->startRead();
+        if (m_onConnect)
+            m_onConnect();
     }
     else {
         if (m_debug)
@@ -82,11 +84,16 @@ AsyncTCPServer::AsyncTCPServer(unsigned char num_of_threads): IHybrid(num_of_thr
     });
 }
 
-void AsyncTCPServer::start(unsigned short port_num, Callback callback, ReadHandler handler) {
+std::vector<std::string> AsyncTCPServer::getAddresses() {
+    return m_localAddresses;
+}
+
+void AsyncTCPServer::start(unsigned short port_num, Callback callback, ReadHandler handler, OnConnect onConnect) {
     if(!m_isStarted) {
         m_port_num = port_num;
         m_callback = callback;
         m_readHandler = handler;
+        m_onConnect = onConnect;
         initAccept();
     }
 }
@@ -99,11 +106,11 @@ void AsyncTCPServer::transmit(std::string &data, unsigned int excludeId) {
 
 
 AsyncTCPServer::~AsyncTCPServer() {
-    // Disconnect all clients
-    disconnectAll();
-    
     // Stop accepting incoming connection requests.
     m_isStopped.store(true);
+    
+    // Disconnect all clients
+    disconnectAll();
 
     // Cancel all acceptor asynchronous operations
     if(m_acceptor)
