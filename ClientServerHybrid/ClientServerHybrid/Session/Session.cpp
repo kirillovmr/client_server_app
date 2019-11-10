@@ -35,9 +35,6 @@ void Session::handleConnect(const boost::system::error_code &ec) {
         
         cout << "Reconnecting..." << endl;
         m_ec = ec;
-//        this_thread::sleep_for(1s);
-//
-//        connect();
         
         // Reconnecting
         m_timer.expires_from_now(chrono::seconds(2));

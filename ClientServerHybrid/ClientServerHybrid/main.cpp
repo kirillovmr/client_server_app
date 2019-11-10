@@ -23,10 +23,6 @@ int main(int argc, const char * argv[]) {
     string input;
     int n1,n2;
     
-    AsyncTCPServer s(2);
-//    s.start(3020, [](auto a, auto b, auto c){});
-//    return 1;
-    
     NetworkChessApp app([](const int board[64]){
         cout << endl;
         for(int i=0; i<64; i++) {
@@ -54,6 +50,7 @@ int main(int argc, const char * argv[]) {
         }
         else if(input == "conn") {
             cin >> input;
+//            input = "10.0.0.204";
             app.connect(input, 3030);
         }
         else if(input == "canc") {

@@ -35,33 +35,6 @@ unsigned int AsyncTCPClient::connect(const string &raw_ip, unsigned short port_n
     
     return session->m_id;
     
-//    session->m_sock.async_connect(session->m_ep, [this, session](const system::error_code& ec) {
-//        if (ec == boost::asio::error::connection_refused) {
-//            cout << "Reconnecting..." << endl;
-
-//            session->m_ec = ec;
-//            onRequestComplete(session);
-//            return;
-//        }
-//        else if (ec) {
-//            session->m_ec = ec;
-//            onRequestComplete(session);
-//            return;
-//        }
-//
-//        std::unique_lock<std::mutex> cancel_lock(session->m_cancel_guard);
-//        if (session->m_was_cancelled) {
-//            onRequestComplete(session);
-//            return;
-//        }
-//
-//        cout << "Session " << session->m_id << ": Connected\n";
-//        session->connected.store(true);
-//
-//        session->startRead();
-//    });
-//
-//    return session->m_id;
 }
 
 

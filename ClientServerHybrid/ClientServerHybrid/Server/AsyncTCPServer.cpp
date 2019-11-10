@@ -29,12 +29,21 @@ void AsyncTCPServer::initAccept() {
     lock.unlock();
     
     // Initializes acceptor on first run
+    boost::system::error_code ec;
     if(!m_isStarted) {
-        m_acceptor.reset( new acceptor(m_ios, endpoint(boost::asio::ip::address_v4::any(), m_port_num)) );
+        m_acceptor.reset( new acceptor(m_ios) );
+        boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::address_v4::any(), m_port_num);
+        m_acceptor->open(endpoint.protocol());
+        m_acceptor->bind(endpoint, ec);
+        if (ec) {
+            cout << ">>(AsyncTCPServer) Error on acceptor bind: " << ec.message() << endl;;
+            return;
+        }
         m_isStarted = true;
     }
     
-    m_acceptor->listen();
+    m_acceptor->listen(boost::asio::socket_base::max_connections);
+    
     if (m_debug)
         cout << "Listen started.\n";
     

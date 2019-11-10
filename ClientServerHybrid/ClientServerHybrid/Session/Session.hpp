@@ -19,7 +19,7 @@
 //typedef void (*Callback) (unsigned int request_id, const std::string& response, const boost::system::error_code& ec);
 typedef std::function<void(unsigned int, const std::string&, const boost::system::error_code&)> Callback;
 typedef std::function<void(std::string)> ReadHandler;
-typedef std::function<void(std::string, unsigned int)> ServerTransmitter;
+typedef std::function<void(std::string&, unsigned int)> ServerTransmitter;
 typedef std::function<void()> OnConnect;
 enum InstanceType { ServerInstance, ClientInstance };
 
@@ -45,10 +45,10 @@ struct Session {
     std::mutex m_cancel_guard;
     std::mutex m_request_guard;
     
-    std::function<void(std::string)> m_readHandler;
-    std::function<void()> m_onConnect;
+    ReadHandler m_readHandler;
+    OnConnect m_onConnect;
     std::function<void(unsigned int)> m_callOnRequestComplete;
-    std::function<void(std::string&, unsigned int)> m_serverTransmitter;
+    ServerTransmitter m_serverTransmitter;
     
     void defaultReadHandler(std::string) {
         std::cout << "Message from " << m_sock.remote_endpoint() << ": " << m_response << std::endl;

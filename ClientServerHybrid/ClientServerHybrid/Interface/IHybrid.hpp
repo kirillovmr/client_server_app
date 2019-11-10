@@ -12,6 +12,7 @@
 #include "Session.hpp"
 
 #include <boost/asio.hpp>
+#include <functional>
 #include <iostream>
 #include <string>
 #include <memory>
