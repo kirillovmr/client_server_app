@@ -87,10 +87,17 @@ AsyncTCPServer::AsyncTCPServer(unsigned char num_of_threads): IHybrid(num_of_thr
     m_resolver.reset(new boost::asio::ip::tcp::resolver(m_ios));
     
     // Storing local ip addresses
-    std::string h = boost::asio::ip::host_name();
-    std::for_each(m_resolver->resolve({h, ""}), {}, [this](const auto &re) {
-        m_localAddresses.push_back(re.endpoint().address().to_string());
-    });
+    // Conencting to "google.com"
+    boost::asio::ip::tcp::socket s(m_ios);
+    s.connect(boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string("216.58.193.206"), 80));
+    m_localAddresses.push_back(s.local_endpoint().address().to_string());
+    cout << "Local ip " << s.local_endpoint().address() << endl;
+    
+//    // Storing local ip addresses
+//    std::string h = boost::asio::ip::host_name();
+//    std::for_each(m_resolver->resolve({h, ""}), {}, [this](const auto &re) {
+//        m_localAddresses.push_back(re.endpoint().address().to_string());
+//    });
 }
 
 std::vector<std::string> AsyncTCPServer::getAddresses() {
